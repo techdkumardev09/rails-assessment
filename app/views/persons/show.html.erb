@@ -1,0 +1,22 @@
+<p>
+  <strong>Name:</strong>
+  <%= @person.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @person.detail.email %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @person.detail.age %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @person.detail.phone %>
+</p>
+
+<%= link_to 'Edit', edit_person_path(@person) %> |
+<%= link_to 'Back', persons_path %>

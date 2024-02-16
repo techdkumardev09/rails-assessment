@@ -1,0 +1,32 @@
+<h1>Persons</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Title</th>
+      <th>Phone</th>
+      <th>Age</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @persons.each do |person| %>
+      <tr>
+        <td><%= person.name %></td>
+        <td><%= person.detail.email %></td>
+        <td><%= person.detail.title %></td>
+        <td><%= person.detail.phone %></td>
+        <td><%= person.detail.age %></td>
+        <td>
+          <%= link_to 'Show', person_path(person) %>
+          <%= link_to 'Edit', edit_person_path(person) %>
+          <%= link_to 'Destroy', person_path(person), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Person', new_person_path %>
