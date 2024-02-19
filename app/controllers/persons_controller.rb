@@ -13,10 +13,11 @@ class PersonsController < ApplicationController
     @person = Person.new(person_params)
     respond_to do |format|
       if @person.save
-        format.html { redirect_to @person, notice: "Post was successfully created." }
+        flash[:notice] = "Person successfully created"
+        format.html { redirect_to @person}
         format.json { render :create, status: :created }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
     end
@@ -34,9 +35,10 @@ class PersonsController < ApplicationController
 
   def update
     if @person.update(person_params)
-      redirect_to @person, notice: 'Person was successfully updated'
+      flash[:notice] = 'Person was successfully updated'
+      redirect_to @person
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -60,7 +62,6 @@ class PersonsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render status: :not_found, json: { errors: 'Person not found', status: :not_found }
   end
-
 
   protected
 # TODO: This is bypassing the CSRF protection

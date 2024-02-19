@@ -5,12 +5,17 @@
     <% if @person.errors.any? %>
       <div id="error_explanation" class="alert alert-danger">
         <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
-
         <ul>
           <% @person.errors.full_messages.each do |message| %>
             <li><%= message %></li>
           <% end %>
         </ul>
+      </div>
+    <% end %>
+
+    <% if flash[:notice] %>
+      <div class="text-center">
+         <p class="alert alert-success"><%= message %></p>
       </div>
     <% end %>
 

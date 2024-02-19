@@ -7,6 +7,14 @@
     <% end %>
   <% end %>
 
+  <% if flash[:notice] %>
+    <% flash.each do |name, message| %>
+      <div class="text-center">
+         <p class="alert alert-success"><%= message %></p>
+      </div>
+    <% end %>
+  <% end %>
+
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card bg-light border-warning shadow">

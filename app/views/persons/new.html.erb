@@ -2,6 +2,11 @@
   <h1 class="display-4 mb-4">Add Person</h1>
 
   <%= form_for @person, url: persons_path, local: true do |form| %>
+    <% if flash[:notice] %>
+      <div class="text-center">
+         <p class="alert alert-success"><%= message %></p>
+      </div>
+    <% end %>
     <% if @person.errors.any? %>
       <div id="error_explanation" class="alert alert-danger">
         <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
