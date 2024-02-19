@@ -1,8 +1,8 @@
 class PersonsController < ApplicationController
-  before_action :set_person, only: [:edit, :update, :destroy]
+  before_action :set_person, only: [:show, :edit, :update, :destroy]
 
   def index
-    @persons = Person.includes(:detail)
+    @persons = Person.includes(:detail).order(created_at: :desc)
   end
 
   def new
@@ -11,16 +11,22 @@ class PersonsController < ApplicationController
 
   def create
     @person = Person.new(person_params)
-
-    if @person.save
-      redirect_to @person, notice: 'Person was successfully created.'
-    else
-      render :new
+    respond_to do |format|
+      if @person.save
+        format.html { redirect_to @person, notice: "Post was successfully created." }
+        format.json { render :create, status: :created }
+      else
+        format.html { render :new }
+        format.json { render json: @person.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def show
-    @person = Person.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render :show , status: :ok }
+    end
   end
 
   def edit
@@ -35,8 +41,12 @@ class PersonsController < ApplicationController
   end
 
   def destroy
-    @person.destroy
-    redirect_to persons_url, notice: 'Person was successfully destroyed.'
+    if @person.destroy
+      redirect_to persons_url, status: :see_other
+    else
+      flash[:alert] = "Failed to delete person."
+      redirect_to persons_url, status: :unprocessable_entity
+    end
   end
 
   private
@@ -47,5 +57,15 @@ class PersonsController < ApplicationController
 
   def set_person
     @person = Person.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render status: :not_found, json: { errors: 'Person not found', status: :not_found }
   end
+
+
+  protected
+# TODO: This is bypassing the CSRF protection
+  def protect_against_forgery?
+    false
+  end
+
 end
