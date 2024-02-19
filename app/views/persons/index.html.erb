@@ -1,32 +1,40 @@
-<h1>Persons</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Title</th>
-      <th>Phone</th>
-      <th>Age</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @persons.each do |person| %>
-      <tr>
-        <td><%= person.name %></td>
-        <td><%= person.detail.email %></td>
-        <td><%= person.detail.title %></td>
-        <td><%= person.detail.phone %></td>
-        <td><%= person.detail.age %></td>
-        <td>
-          <%= link_to 'Show', person_path(person) %>
-          <%= link_to 'Edit', edit_person_path(person) %>
-          <%= link_to 'Destroy', person_path(person), method: :delete, data: { turbo_method: :delete, confirm: 'Are you sure?' } %>
-        </td>
-      </tr>
+<div class="flex-column" style = "height: auto;">
+  <h1> Persons </h1>
+  <!--Error Message-->
+  <% if flash[:errors] %>
+    <% flash.each do |name,message| %>
+      <p class="text-danger"><%= message%></p>
     <% end %>
-  </tbody>
-</table>
-
-<%= link_to 'New Person', new_person_path %>
+  <% end %>
+  <div class="d-flex">
+    <%= button_to "Add New Person", new_person_path, method: :get ,class:"btn btn-primary border-0 rounded-pill shadow p-2 m-2" %>
+  </div>
+  <!-- Person Table -->
+  <div>
+    <table class="table">
+      <ol class="fs-2">
+        <thead class="table-dark">
+          <td class="text-center"> Name </td>
+          <td class="text-center"> Email </td>
+          <td class="text-center"> Title </td>
+          <td class="text-center"> Age </td>
+          <td class="text-center">Phone</td>
+          <td colspan=3 class="text-center"> Action </td>
+        </thead>
+        <%  @persons.each do |person| %>
+          <tr>
+            <td class="text-center"> <%= person.name %> </td>
+            <td class="text-center"> <%= person.detail.email %> </td>
+            <td class="text-center"> <%= person.detail.title %> </td>
+            <td class="text-center"> <%= person.detail.age %> </td>
+            <td class="text-center"> <%= person.detail.phone %> </td>
+            <td class="text-center"><%= button_to "Show", person_path(person),method: :get, class:"btn btn-success border-0 rounded-pill shadow px-3 py-2" %></td>
+            <td class="text-center"><%= button_to "Edit", edit_person_path(person),method: :get, class:"btn btn-primary border-0 rounded-pill shadow px-3 py-2" %></td>
+            <td class="text-center"><%= button_to "Delete",person_path(person), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },class:"btn btn-danger border-0 rounded-pill shadow px-3 py-2" %></td>
+          </tr>
+        <% end %>
+      </ol>
+    </table>
+  </div>
+</div>

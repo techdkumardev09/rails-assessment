@@ -1,35 +1,61 @@
-<%= form_for @person, url: persons_path, local: true do |form| %>
-  <% if @person.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
+<div class="container mt-5">
+  <h1 class="display-4 mb-4">Add Person</h1>
 
-      <ul>
-        <% @person.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <%= form_for @person, url: persons_path, local: true do |form| %>
+    <% if @person.errors.any? %>
+      <div id="error_explanation" class="alert alert-danger">
+        <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
+
+        <ul>
+          <% @person.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <div class="form-group">
+        <%= form.label :name, class: "form-label" %>
+        <%= form.text_field :name, class: "form-control", placeholder:"Enter Your Name" %>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <h2 class="h4">Details</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <%= form.fields_for :detail_attributes do |detail_form| %>
+            <div class="mb-3">
+              <%= detail_form.label :email, class: "form-label" %>
+              <%= detail_form.email_field :email, class: "form-control", placeholder:"Enter Your Email" %>
+            </div>
+
+            <div class="mb-3">
+              <%= detail_form.label :title, class: "form-label" %>
+              <%= detail_form.text_field :title, class: "form-control" , placeholder:"Enter Your Title" %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="col-md-6">
+          <%= form.fields_for :detail_attributes do |detail_form| %>
+            <div class="mb-3">
+              <%= detail_form.label :age, class: "form-label" %>
+              <%= detail_form.number_field :age, class: "form-control", placeholder:"Enter Your Age" %>
+            </div>
+
+            <div class="mb-3">
+              <%= detail_form.label :phone, class: "form-label" %>
+              <%= detail_form.number_field :phone, class: "form-control", placeholder:"Enter Your Phone Number" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Submit", class: "btn btn-primary" %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.fields_for :detail_attributes do |detail_form| %>
-      <%= detail_form.label :email %>
-      <%= detail_form.email_field :email %>
-
-      <%= detail_form.label :age %>
-      <%= detail_form.number_field :age %>
-
-      <%= detail_form.label :phone %>
-      <%= detail_form.text_field :phone %>
-    <% end %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
